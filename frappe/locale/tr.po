@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: frappe\n"
 "Report-Msgid-Bugs-To: developers@frappe.io\n"
 "POT-Creation-Date: 2024-11-10 09:33+0000\n"
-"PO-Revision-Date: 2024-11-11 13:04\n"
+"PO-Revision-Date: 2024-11-12 12:59\n"
 "Last-Translator: developers@frappe.io\n"
 "Language-Team: Turkish\n"
 "MIME-Version: 1.0\n"
@@ -297,7 +297,45 @@ msgid "<div class=\"well\">\n"
 "    </ul>\n"
 "</div>\n"
 "<br>\n"
-msgstr ""
+msgstr "<div class=\"well\">\n"
+"    Kutudaki Seri listesini düzenleyin. Kurallar:\n"
+"    <ul>\n"
+"        <li>Her Seri Öneki yeni bir satırda.</li>\n"
+"        <li>İzin verilen özel karakterler \"/\" ve \"-\" dir</li>\n"
+"        <li>\n"
+"            İsteğe bağlı olarak, nokta (.)\n"
+"            ve ardından karma (#) kullanarak serideki basamak sayısını ayarlayın. Örneğin, \".####\",\n"
+"            serisinin dört basamaklı olacağı anlamına gelir. Varsayılan değer beş basamaktır.\n"
+"        </li>\n"
+"        <li>\n"
+"            Değişkenleri seri adında (.) noktalarının arasına\n"
+"            koyarak da kullanabilirsiniz\n"
+"            <br>\n"
+"            Desteklenen Değişkenler:\n"
+"            <ul>\n"
+"                <li><code>.YYYY.</code> - 4 basamaklı yıl</li>\n"
+"                <li><code>.YY.</code> - 2 basamaklı yıl</li>\n"
+"                <li><code>.MM.</code> - Ay</li>\n"
+"                <li><code>.DD.</code> - Ayın günü</li>\n"
+"                <li><code>.WW.</code> - Yılın haftası</li>\n"
+"                <li><code>.FY.</code> - Mali Yıl</li>\n"
+"                <li><code>.ABBR.</code> - Şirket Kısaltması</li>\n"
+"                <li>\n"
+"                    <code>.{fieldname}.</code> - belgedeki alan adı, örneğin\n"
+"                    <code>şubesi</code>\n"
+"                </li>\n"
+"            </ul>\n"
+"        </li>\n"
+"    </ul>\n"
+"    Örnekler:\n"
+"    <ul>\n"
+"        <li>INV-</li>\n"
+"        <li>INV-10-</li>\n"
+"        <li>INVK-</li>\n"
+"        <li>INV-.YYYY.-.{branch}.-.MM.-.####</li>\n"
+"    </ul>\n"
+"</div>\n"
+"<br>\n"
 
 #. Content of the 'Custom HTML Help' (HTML) field in DocType 'Print Format'
 #: frappe/printing/doctype/print_format/print_format.json
@@ -1835,7 +1873,7 @@ msgstr "Kullanıcı Adı ile Oturum Açmaya İzin Ver"
 #. Label of the sb_allow_modules (Section Break) field in DocType 'User'
 #: frappe/core/doctype/user/user.json
 msgid "Allow Modules"
-msgstr "Modüllere İzin Ver"
+msgstr "Modül İzinleri"
 
 #. Label of the allow_older_web_view_links (Check) field in DocType 'System
 #. Settings'
@@ -3251,7 +3289,7 @@ msgstr "Arka Plan İşleri Kuyruğu"
 
 #: frappe/public/js/frappe/list/bulk_operations.js:87
 msgid "Background Print (required for >25 documents)"
-msgstr ""
+msgstr "Arka Plan Baskısı ( En az 25 belge ve üstü)"
 
 #. Label of the background_workers (Section Break) field in DocType 'System
 #. Settings'
@@ -7278,7 +7316,7 @@ msgstr "Ayrıntılar"
 
 #: frappe/core/page/permission_manager/permission_manager.js:487
 msgid "Did not add"
-msgstr ""
+msgstr "Eklenmedi"
 
 #: frappe/core/page/permission_manager/permission_manager.js:381
 msgid "Did not remove"
@@ -12029,7 +12067,7 @@ msgstr "Önizlemeyi Gizle"
 #. Description of the 'Hide Buttons' (Check) field in DocType 'Form Tour Step'
 #: frappe/desk/doctype/form_tour_step/form_tour_step.json
 msgid "Hide Previous, Next and Close button on highlight dialog."
-msgstr ""
+msgstr "Vurgulama iletişim kutusunda Önceki, Sonraki ve Kapat düğmelerini gizle."
 
 #: frappe/public/js/frappe/list/list_filter.js:94
 msgid "Hide Saved"
@@ -13028,7 +13066,7 @@ msgstr "InnoDB"
 #. Description of the 'New Role' (Data) field in DocType 'Role Replication'
 #: frappe/core/doctype/role_replication/role_replication.json
 msgid "Input existing role name if you would like to extend it with access of another role."
-msgstr ""
+msgstr "Başka bir rolün erişimiyle genişletmek istiyorsanız mevcut rol adını girin."
 
 #: frappe/core/doctype/data_import/data_import_list.js:35
 msgid "Insert"
@@ -15320,7 +15358,7 @@ msgstr ""
 #. Description of the 'Dynamic Route' (Check) field in DocType 'Web Page'
 #: frappe/website/doctype/web_page/web_page.json
 msgid "Map route parameters into form variables. Example <code>/project/&lt;name&gt;</code>"
-msgstr ""
+msgstr "Rota parametrelerini form değişkenlerine eşleyin. Örnek <code>/proje/&lt;adı&gt;</code>"
 
 #: frappe/core/doctype/data_import/importer.py:886
 msgid "Mapping column {0} to field {1}"
@@ -15726,7 +15764,7 @@ msgstr "Yöntem"
 
 #: frappe/__init__.py:931
 msgid "Method Not Allowed"
-msgstr ""
+msgstr "İzin Verilmeyen Method"
 
 #: frappe/desk/doctype/number_card/number_card.py:70
 msgid "Method is required to create a number card"
@@ -17906,7 +17944,7 @@ msgstr "Özelleştirmelerin yalnızca geliştirici modunda dışa aktarılmasın
 #. Settings'
 #: frappe/integrations/doctype/s3_backup_settings/s3_backup_settings.json
 msgid "Only change this if you want to use other S3 compatible object storage backends."
-msgstr ""
+msgstr "Yalnızca diğer S3 uyumlu nesne depolama arka uçlarını kullanmak istiyorsanız bunu değiştirin."
 
 #: frappe/model/document.py:1177
 msgid "Only draft documents can be discarded"
@@ -18178,13 +18216,13 @@ msgstr ""
 #. Label of the company_history (Table) field in DocType 'About Us Settings'
 #: frappe/website/doctype/about_us_settings/about_us_settings.json
 msgid "Org History"
-msgstr ""
+msgstr "Organizasyon Geçmişi"
 
 #. Label of the company_history_heading (Data) field in DocType 'About Us
 #. Settings'
 #: frappe/website/doctype/about_us_settings/about_us_settings.json
 msgid "Org History Heading"
-msgstr ""
+msgstr "Organizasyon Geçmişi Başlığı"
 
 #: frappe/public/js/frappe/form/print_utils.js:28
 msgid "Orientation"
@@ -18462,7 +18500,7 @@ msgstr "Sayfa Başlığı"
 
 #: frappe/public/js/frappe/list/bulk_operations.js:80
 msgid "Page Width (in mm)"
-msgstr ""
+msgstr "Sayfa Genişliği (mm)"
 
 #: frappe/www/qrcode.py:35
 msgid "Page has expired!"
@@ -18471,7 +18509,7 @@ msgstr "Sayfa süresi doldu!"
 #: frappe/printing/doctype/print_settings/print_settings.py:70
 #: frappe/public/js/frappe/list/bulk_operations.js:106
 msgid "Page height and width cannot be zero"
-msgstr ""
+msgstr "Sayfa yüksekliği ve genişliği sıfır olamaz"
 
 #: frappe/public/js/frappe/views/container.js:52 frappe/www/404.html:23
 msgid "Page not found"
@@ -20798,7 +20836,7 @@ msgstr "Referans Tarihi"
 #. Label of the datetime_changed (Select) field in DocType 'Notification'
 #: frappe/email/doctype/notification/notification.json
 msgid "Reference Datetime"
-msgstr ""
+msgstr "Referans Tarihi"
 
 #. Label of the reference_name (Data) field in DocType 'Email Queue'
 #: frappe/email/doctype/email_queue/email_queue.json
@@ -24931,7 +24969,7 @@ msgstr "Durumlar Güncellendi"
 
 #: frappe/email/doctype/email_queue/email_queue.js:36
 msgid "Status Updated. The email will be picked up in the next scheduled run."
-msgstr ""
+msgstr "Durum Güncellendi. E-posta bir sonraki planlanan çalışmada alınacaktır."
 
 #: frappe/www/message.html:24
 msgid "Status: {0}"
@@ -25144,12 +25182,12 @@ msgstr "Hata Bildir"
 #: frappe/website/doctype/web_form/templates/web_form.html:156
 msgctxt "Button in web form"
 msgid "Submit another response"
-msgstr ""
+msgstr "Başka bir yanıt gönder"
 
 #. Label of the button_label (Data) field in DocType 'Web Form'
 #: frappe/website/doctype/web_form/web_form.json
 msgid "Submit button label"
-msgstr ""
+msgstr "Gönder Butonu Etiketi"
 
 #. Label of the submit_on_creation (Check) field in DocType 'Auto Repeat'
 #: frappe/automation/doctype/auto_repeat/auto_repeat.json
@@ -26323,11 +26361,11 @@ msgstr "Bu Para Birimi aktif değil. İşlemlerde kullanmak için etkinleştirin
 
 #: frappe/geo/utils.py:84
 msgid "This Doctype does not contain latitude and longitude fields"
-msgstr ""
+msgstr "Bu Doctype enlem ve boylam alanlarını içermiyor"
 
 #: frappe/geo/utils.py:67
 msgid "This Doctype does not contain location fields"
-msgstr ""
+msgstr "Bu Doctype konum alanları içermiyor"
 
 #: frappe/public/js/frappe/views/kanban/kanban_view.js:393
 msgid "This Kanban Board will be private"
@@ -26559,7 +26597,7 @@ msgstr "Rapora yönlendirildikten sonra kullanıcıya bir iletişim kutusunda g�
 
 #: frappe/www/third_party_apps.html:23
 msgid "This will log out {0} from all other devices"
-msgstr ""
+msgstr "Bu işlem {0} uygulamasını diğer tüm cihazlardan kapatacaktır"
 
 #: frappe/templates/emails/delete_data_confirmation.html:3
 msgid "This will permanently remove your data."
@@ -29830,7 +29868,7 @@ msgstr "Markdown alanlarına yalnızca resim ekleyebilirsiniz"
 
 #: frappe/public/js/frappe/list/bulk_operations.js:42
 msgid "You can only print upto {0} documents at a time"
-msgstr ""
+msgstr "Aynı anda en fazla {0} belge yazdırabilirsiniz"
 
 #: frappe/core/doctype/user_type/user_type.py:104
 msgid "You can only set the 3 custom doctypes in the Document Types table."
@@ -31818,7 +31856,7 @@ msgstr ""
 
 #: frappe/public/js/frappe/form/workflow.js:45
 msgid "{0}: Other permission rules may also apply"
-msgstr ""
+msgstr "{0}: Diğer izin kuralları da geçerli olabilir"
 
 #: frappe/core/doctype/doctype/doctype.py:1787
 msgid "{0}: Permission at level 0 must be set before higher levels are set"
