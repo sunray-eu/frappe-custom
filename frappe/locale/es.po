@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: frappe\n"
 "Report-Msgid-Bugs-To: developers@frappe.io\n"
 "POT-Creation-Date: 2024-11-10 09:33+0000\n"
-"PO-Revision-Date: 2024-11-11 13:03\n"
+"PO-Revision-Date: 2024-11-12 12:59\n"
 "Last-Translator: developers@frappe.io\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -2668,7 +2668,7 @@ msgstr "Usuario de regla de asignación"
 
 #: frappe/automation/doctype/assignment_rule/assignment_rule.py:55
 msgid "Assignment Rule is not allowed on document type {0}"
-msgstr ""
+msgstr "La regla de asignación no está permitida en el tipo de documento {0}"
 
 #. Label of the assignment_rules_section (Section Break) field in DocType
 #. 'Assignment Rule'
@@ -4030,7 +4030,7 @@ msgstr "URL de llamada a la acción"
 #. Label of the cta_section (Section Break) field in DocType 'Blog Settings'
 #: frappe/website/doctype/blog_settings/blog_settings.json
 msgid "Call to Action"
-msgstr ""
+msgstr "Llamada a la acción"
 
 #. Label of the callback_message (Small Text) field in DocType 'Onboarding
 #. Step'
