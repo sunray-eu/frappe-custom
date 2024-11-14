@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: frappe\n"
 "Report-Msgid-Bugs-To: developers@frappe.io\n"
 "POT-Creation-Date: 2024-11-10 09:33+0000\n"
-"PO-Revision-Date: 2024-11-12 12:59\n"
+"PO-Revision-Date: 2024-11-14 13:25\n"
 "Last-Translator: developers@frappe.io\n"
 "Language-Team: Swedish\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "${values.doctype_name} har lagts till i kö för optimering"
 
 #: frappe/public/js/frappe/ui/toolbar/about.js:8
 msgid "&copy; Frappe Technologies Pvt. Ltd. and contributors"
-msgstr "&copy; Frappe Technologies Pvt. Ltd. och bidragare"
+msgstr "&copy; Frappe Technologies Pvt. Ltd. och bidragsgivare"
 
 #. Label of the head_html (Code) field in DocType 'Website Settings'
 #: frappe/website/doctype/website_settings/website_settings.json
@@ -2508,7 +2508,7 @@ msgstr "Är du säker på att du vill återaktivera schemaläggare?"
 
 #: frappe/core/doctype/communication/communication.js:163
 msgid "Are you sure you want to relink this communication to {0}?"
-msgstr "Är du säker att du vill länka om e-post till {0}?"
+msgstr "Är du säker att du vill länka om kommunikation till {0}?"
 
 #: frappe/core/doctype/rq_job/rq_job_list.js:10
 msgid "Are you sure you want to remove all failed jobs?"
@@ -5230,17 +5230,17 @@ msgstr "Vanliga förnamn och efternamn är lätta att gissa."
 #: frappe/email/doctype/email_queue/email_queue.json
 #: frappe/tests/test_translate.py:35 frappe/tests/test_translate.py:103
 msgid "Communication"
-msgstr "E-post"
+msgstr "Kommunikation"
 
 #. Name of a DocType
 #: frappe/core/doctype/communication_link/communication_link.json
 msgid "Communication Link"
-msgstr "E-post Länk"
+msgstr "Kommunikation Länk"
 
 #. Label of a Link in the Build Workspace
 #: frappe/core/workspace/build/build.json
 msgid "Communication Logs"
-msgstr "E-post Logg"
+msgstr "Kommunikation Logg"
 
 #. Label of the communication_type (Select) field in DocType 'Communication'
 #: frappe/core/doctype/communication/communication.json
@@ -13931,7 +13931,7 @@ msgstr "Håll koll på alla uppdatering flöde"
 #. Description of a DocType
 #: frappe/core/doctype/communication/communication.json
 msgid "Keeps track of all communications"
-msgstr "E-post Övervakning"
+msgstr "Kommunikation Övervakning"
 
 #. Label of the defkey (Data) field in DocType 'DefaultValue'
 #. Label of the key (Data) field in DocType 'Document Share Key'
@@ -18018,7 +18018,7 @@ msgstr "Öppna Awesomebar"
 
 #: frappe/public/js/frappe/form/templates/timeline_message_box.html:67
 msgid "Open Communication"
-msgstr "Öppna E-post"
+msgstr "Öppna Kommunikation"
 
 #: frappe/templates/emails/new_notification.html:10
 msgid "Open Document"
@@ -19278,7 +19278,7 @@ msgstr "Logga in för att lämna kommentar."
 
 #: frappe/core/doctype/communication/communication.py:210
 msgid "Please make sure the Reference Communication Docs are not circularly linked."
-msgstr "Kontrollera att Referens Dokument för E-post inte är cirkulärt länkade."
+msgstr "Kontrollera att Referens Dokument för Kommunikation inte är cirkulärt länkade."
 
 #: frappe/model/document.py:930
 msgid "Please refresh to get the latest document."
@@ -21100,7 +21100,7 @@ msgstr "Länka om"
 
 #: frappe/core/doctype/communication/communication.js:138
 msgid "Relink Communication"
-msgstr "Länka om E-post"
+msgstr "Länka om Kommunikation"
 
 #. Option for the 'Comment Type' (Select) field in DocType 'Comment'
 #. Option for the 'Comment Type' (Select) field in DocType 'Communication'
@@ -29813,7 +29813,7 @@ msgstr "Du får bara uppdatera ordning, inte ta bort eller lägga till appar."
 
 #: frappe/email/doctype/email_account/email_account.js:255
 msgid "You are selecting Sync Option as ALL, It will resync all read as well as unread message from server. This may also cause the duplication of Communication (emails)."
-msgstr "Du väljer Synkronisering Alternativ som ALLA. Det kommer att synkronisera alla lästa såväl som olästa meddelanden från server. Detta kan också orsaka kopior av korrespondens (e-post)."
+msgstr "Du väljer Synkronisering Alternativ som ALLA. Det kommer att synkronisera alla lästa såväl som olästa meddelanden från server. Detta kan också orsaka kopior av kommunikation (e-post)."
 
 #: frappe/public/js/frappe/form/footer/form_timeline.js:415
 msgctxt "Form timeline"
