@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: frappe\n"
 "Report-Msgid-Bugs-To: developers@frappe.io\n"
 "POT-Creation-Date: 2024-11-10 09:33+0000\n"
-"PO-Revision-Date: 2024-11-14 13:25\n"
+"PO-Revision-Date: 2024-11-15 13:43\n"
 "Last-Translator: developers@frappe.io\n"
 "Language-Team: Swedish\n"
 "MIME-Version: 1.0\n"
@@ -6798,7 +6798,7 @@ msgstr "Standard Inkommande"
 #. Label of the is_default (Check) field in DocType 'Letter Head'
 #: frappe/printing/doctype/letter_head/letter_head.json
 msgid "Default Letter Head"
-msgstr "Standard Sidhuvud"
+msgstr "Standard Brevhuvud"
 
 #. Option for the 'Action' (Select) field in DocType 'Amended Document Naming
 #. Settings'
@@ -8518,7 +8518,7 @@ msgstr "Redigera Huvud Rubrik"
 
 #: frappe/public/js/print_format_builder/LetterHeadEditor.vue:52
 msgid "Edit Letter Head"
-msgstr "Redigera Sidhuvud"
+msgstr "Redigera Brevhuvud"
 
 #: frappe/public/js/print_format_builder/PrintFormat.vue:35
 msgid "Edit Letter Head Footer"
@@ -9962,7 +9962,7 @@ msgstr "Fel"
 #. Failing Jobs'
 #: frappe/desk/doctype/system_health_report_failing_jobs/system_health_report_failing_jobs.json
 msgid "Failure Rate"
-msgstr "Felfrekvens"
+msgstr "Felprocent"
 
 #. Label of the favicon (Attach) field in DocType 'Website Settings'
 #: frappe/website/doctype/website_settings/website_settings.json
@@ -11281,7 +11281,7 @@ msgstr "Hämta Fält"
 
 #: frappe/printing/doctype/letter_head/letter_head.js:32
 msgid "Get Header and Footer wkhtmltopdf variables"
-msgstr "Hämta Sidhuvud och Sidfot wkhtmltopdf variabler"
+msgstr "Hämta Brevhuvud och Sidfot wkhtmltopdf variabler"
 
 #: frappe/public/js/frappe/form/multi_select_dialog.js:87
 msgid "Get Items"
@@ -11853,7 +11853,7 @@ msgstr "Sidhuvud, Robotar"
 
 #: frappe/printing/doctype/letter_head/letter_head.js:30
 msgid "Header/Footer scripts can be used to add dynamic behaviours."
-msgstr "Skript för Sidhuvud/Sidfot kan användas för att lägga till dynamisk beteende."
+msgstr "Skript för Brevhuvud/Sidfot kan användas för att lägga till dynamisk beteende."
 
 #. Label of the webhook_headers (Table) field in DocType 'Webhook'
 #. Label of the headers (Code) field in DocType 'Webhook Request Log'
@@ -14497,7 +14497,7 @@ msgstr "Letter"
 #: frappe/public/js/frappe/list/bulk_operations.js:52
 #: frappe/public/js/print_format_builder/LetterHeadEditor.vue:144
 msgid "Letter Head"
-msgstr "Sidhuvud"
+msgstr "Brevhuvud"
 
 #. Label of the source (Select) field in DocType 'Letter Head'
 #: frappe/printing/doctype/letter_head/letter_head.json
@@ -14514,7 +14514,7 @@ msgstr "Sidhuvud Bild"
 #: frappe/printing/doctype/letter_head/letter_head.json
 #: frappe/public/js/print_format_builder/LetterHeadEditor.vue:198
 msgid "Letter Head Name"
-msgstr "Sidhuvud Namn"
+msgstr "Brevhuvud Namn"
 
 #: frappe/printing/doctype/letter_head/letter_head.js:30
 msgid "Letter Head Scripts"
@@ -14903,7 +14903,7 @@ msgstr "Ladda Mer"
 #: frappe/public/js/frappe/form/footer/form_timeline.js:216
 msgctxt "Form timeline"
 msgid "Load More Communications"
-msgstr "Ladda Mer Korenspondens"
+msgstr "Ladda Mer Kommunikation"
 
 #: frappe/public/js/frappe/file_uploader/TreeNode.vue:45
 msgid "Load more"
@@ -16872,7 +16872,7 @@ msgstr "Ingen Etikett"
 #: frappe/public/js/frappe/list/bulk_operations.js:170
 #: frappe/utils/weasyprint.py:52
 msgid "No Letterhead"
-msgstr "Ingen Sidhuvud"
+msgstr "Inget Brevhuvud"
 
 #: frappe/model/naming.py:471
 msgid "No Name Specified for {0}"
@@ -19953,7 +19953,7 @@ msgstr "Dokument Utskrift"
 #. Label of the with_letterhead (Check) field in DocType 'Print Settings'
 #: frappe/printing/doctype/print_settings/print_settings.json
 msgid "Print with letterhead"
-msgstr "Utskrift med Sidhuvud"
+msgstr "Utskrift med Brevhuvud"
 
 #: frappe/printing/page/print/print.js:831
 msgid "Printer"
