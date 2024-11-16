@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: frappe\n"
 "Report-Msgid-Bugs-To: developers@frappe.io\n"
 "POT-Creation-Date: 2024-11-10 09:33+0000\n"
-"PO-Revision-Date: 2024-11-15 13:43\n"
+"PO-Revision-Date: 2024-11-16 13:52\n"
 "Last-Translator: developers@frappe.io\n"
 "Language-Team: Swedish\n"
 "MIME-Version: 1.0\n"
@@ -26039,7 +26039,7 @@ msgstr "Användarpost för denna begäran har tagits bort automatiskt på grund 
 
 #: frappe/public/js/frappe/desk.js:163
 msgid "The application has been updated to a new version, please refresh this page"
-msgstr "System Uppdatering klar! Uppdatera sidan nu..."
+msgstr "Applikationer har uppdaterats till ny version, uppdatera denna sida"
 
 #. Description of the 'Application Name' (Data) field in DocType 'System
 #. Settings'
@@ -31598,7 +31598,7 @@ msgstr "{0} av {1} skickade"
 #: frappe/utils/data.py:1508
 msgctxt "Money in words"
 msgid "{0} only."
-msgstr "{0} endast."
+msgstr "{0} ."
 
 #: frappe/utils/data.py:1678
 msgid "{0} or {1}"
