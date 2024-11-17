@@ -49,6 +49,8 @@ def make(
 	send_after=None,
 	print_language=None,
 	now=False,
+	in_reply_to_doctype=None,
+	in_reply_to_name=None,
 	**kwargs,
 ) -> dict[str, str]:
 	"""Make a new communication. Checks for email permissions for specified Document.
@@ -68,9 +70,16 @@ def make(
 	:param send_me_a_copy: Send a copy to the sender (default **False**).
 	:param email_template: Template which is used to compose mail .
 	:param send_after: Send after the given datetime.
+	:param print_language: Language in which the print is to be sent.
+	:param now: Send email immediately (default **False**).
+	:param in_reply_to_doctype: Doctype of the document to which this communication is a reply.
+	:param in_reply_to_name: Name of the document to which this communication is a reply.
+	:param kwargs: Deprecated or unsupported options.
 	"""
 	if kwargs:
 		from frappe.utils.commands import warn
+
+		print("email make, warn")
 
 		warn(
 			f"Options {kwargs} used in frappe.core.doctype.communication.email.make "
@@ -78,8 +87,12 @@ def make(
 			category=DeprecationWarning,
 		)
 
+	print(f"make Email, after warn")
+
 	if doctype and name and not frappe.has_permission(doctype=doctype, ptype="email", doc=name):
 		raise frappe.PermissionError(f"You are not allowed to send emails related to: {doctype} {name}")
+
+	print(f"make Email, after permission check")
 
 	return _make(
 		doctype=doctype,
@@ -106,6 +119,8 @@ def make(
 		send_after=send_after,
 		print_language=print_language,
 		now=now,
+		in_reply_to_doctype=in_reply_to_doctype,
+		in_reply_to_name=in_reply_to_name,
 	)
 
 
@@ -134,13 +149,24 @@ def _make(
 	send_after=None,
 	print_language=None,
 	now=False,
+	in_reply_to_doctype=None,
+	in_reply_to_name=None,
 ) -> dict[str, str]:
 	"""Internal method to make a new communication that ignores Permission checks."""
+
+	# Print debug info
+	print(f"make Email: {locals()}")
+	frappe.logger().warning(f"make Email: {locals()}")
+	print("Make email without locals")
+	frappe.logger().warning("Make email without locals")
 
 	sender = sender or get_formatted_email(frappe.session.user)
 	recipients = list_to_str(recipients) if isinstance(recipients, list) else recipients
 	cc = list_to_str(cc) if isinstance(cc, list) else cc
 	bcc = list_to_str(bcc) if isinstance(bcc, list) else bcc
+
+	# Get message_id from in_reply_to document based on in_reply_to_doctype and in_reply_to_name
+	in_reply_to = in_reply_to_name
 
 	comm: "Communication" = frappe.get_doc(
 		{
@@ -162,6 +188,7 @@ def _make(
 			"has_attachment": 1 if attachments else 0,
 			"communication_type": communication_type,
 			"send_after": send_after,
+			"in_reply_to": in_reply_to,
 		}
 	)
 	comm.flags.skip_add_signature = not add_signature
@@ -173,6 +200,8 @@ def _make(
 			attachments = json.loads(attachments)
 		add_attachments(comm.name, attachments)
 
+	print(f"make Email: {comm.name}, send_email: {send_email}")
+	frappe.logger().warning(f"make Email: {comm.name}, send_email: {send_email}")
 	if cint(send_email):
 		if not comm.get_outgoing_email_account():
 			frappe.throw(

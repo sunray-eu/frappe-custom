@@ -6,7 +6,7 @@ from frappe.desk.doctype.notification_settings.notification_settings import (
 )
 from frappe.desk.doctype.todo.todo import ToDo
 from frappe.email.doctype.email_account.email_account import EmailAccount
-from frappe.utils import get_formatted_email, get_url, parse_addr
+from frappe.utils import cstr, get_formatted_email, get_url, parse_addr
 
 
 class CommunicationEmailMixin:
@@ -29,7 +29,7 @@ class CommunicationEmailMixin:
 		)
 
 	def get_email_with_displayname(self, email_address):
-		"""Returns email address after adding displayname."""
+		"""Return email address after adding displayname."""
 		display_name, email = parse_addr(email_address)
 		if display_name and display_name != email:
 			return email_address
@@ -137,8 +137,8 @@ class CommunicationEmailMixin:
 		return self.sender_mailid
 
 	def mail_sender_fullname(self):
-		email_account = self.get_outgoing_email_account()
 		if not self.sender_full_name:
+			email_account = self.get_outgoing_email_account()
 			return (email_account and email_account.name) or _("Notification")
 		return self.sender_full_name
 
@@ -146,12 +146,12 @@ class CommunicationEmailMixin:
 		return get_formatted_email(self.mail_sender_fullname(), mail=self.mail_sender())
 
 	def get_content(self, print_format=None):
-		if print_format and frappe.db.get_single_value("System Settings", "attach_view_link"):
-			return self.content + self.get_attach_link(print_format)
+		if print_format and frappe.get_system_settings("attach_view_link"):
+			return cstr(self.content) + self.get_attach_link(print_format)
 		return self.content
 
 	def get_attach_link(self, print_format):
-		"""Returns public link for the attachment via `templates/emails/print_link.html`."""
+		"""Return public link for the attachment via `templates/emails/print_link.html`."""
 		return frappe.get_template("templates/emails/print_link.html").render(
 			{
 				"url": get_url(),
@@ -234,6 +234,39 @@ class CommunicationEmailMixin:
 		else:
 			return []
 
+	def parent_communication(self):
+		"""Find a related communication so that we can prepare a mail thread.
+
+		The way it happens is by using in-reply-to header, and we can't make thread if it does not exist.
+
+		Here are the cases to handle:
+		1. If mail is a reply to already sent mail, then we can get parent communicaion from
+		        Email Queue record or message_id on communication.
+		2. Sometimes we send communication name in message-ID directly, use that to get parent communication.
+		3. Sender sent a reply but reply is on top of what (s)he sent before,
+		        then parent record exists directly in communication.
+		"""
+		from frappe.core.doctype.communication.communication import Communication
+
+		if self._parent_communication:
+			return self._parent_communication
+
+		if not self.in_reply_to:
+			return ""
+
+		communication = Communication.find_one_by_filters(message_id=self.in_reply_to)
+		if not communication:
+			if self.parent_email_queue() and self.parent_email_queue().communication:
+				communication = Communication.find(self.parent_email_queue().communication, ignore_error=True)
+			else:
+				reference = self.in_reply_to
+				if "@" in self.in_reply_to:
+					reference, _ = self.in_reply_to.split("@", 1)
+				communication = Communication.find(reference, ignore_error=True)
+
+		self._parent_communication = communication or ""
+		return self._parent_communication
+
 	@staticmethod
 	def filter_thread_notification_disbled_users(emails):
 		"""Filter users based on notifications for email threads setting is disabled."""
@@ -278,13 +311,58 @@ class CommunicationEmailMixin:
 			print_format=print_format, print_html=print_html, print_language=print_language
 		)
 		incoming_email_account = self.get_incoming_email_account()
+		email_account_incoming = EmailAccount.find_one_by_filters(enable_incoming=1, email_id=self.sender_mailid)
+
+		reply_to = None
+
+		# TODO: check all message ids recursively to find parent communication
+		# parent_communication =
+
+		# We need to get references - all message ids of the email chain, we already have references in self.references as array, we just need to add here reply_to id
+		# references = (self.references or [])
+
+		# If this is a reply to an existing email and email_account have incoming enabled, set reply_to as the sender of the reply
+		if self.in_reply_to and email_account_incoming:
+			# references.append(self.in_reply_to)
+			reply_to = self.get_mail_sender_with_displayname()
+		elif incoming_email_account:
+			reply_to = incoming_email_account.email_id
+
+		in_reply_to_messageid = None
+
+		if self.in_reply_to:
+			try:
+				in_reply_to_messageid = frappe.db.get_value(doctype="Communication", filters=self.in_reply_to, fieldname="message_id")
+			except Exception:
+				# Ignore if doctype or message_id in doctype is not found
+				pass
+
+		debug_data = {
+				"recipients": recipients,
+				"cc": cc,
+				"bcc": bcc,
+				"self.in_reply_to": self.in_reply_to,
+				"in_reply_to_messageid": in_reply_to_messageid,
+				"get_mail_sender_with_displayname": self.get_mail_sender_with_displayname(),
+				"incoming_email_account": incoming_email_account and True,
+				"incoming_email_account.email_id": incoming_email_account.email_id,
+				"reply_to": reply_to,
+				"subject": self.subject,
+				# "content": self.get_content(print_format=print_format),
+				# "attachments": final_attachments,
+			}
+
+		# Print debug info
+		frappe.logger(module="emaildebug").error(f"Log, sending email with following details: {debug_data}")
+		print(f"Log, sending email with following details: {debug_data}")
+
 		return {
 			"recipients": recipients,
 			"cc": cc,
 			"bcc": bcc,
 			"expose_recipients": "header",
 			"sender": self.get_mail_sender_with_displayname(),
-			"reply_to": incoming_email_account and incoming_email_account.email_id,
+			"reply_to": reply_to,
 			"subject": self.subject,
 			"content": self.get_content(print_format=print_format),
 			"reference_doctype": self.reference_doctype,
@@ -298,6 +376,8 @@ class CommunicationEmailMixin:
 			"is_notification": (self.sent_or_received == "Received" and True) or False,
 			"print_letterhead": print_letterhead,
 			"send_after": self.send_after,
+			"in_reply_to": in_reply_to_messageid,
+			# "references": references,
 		}
 
 	def send_email(

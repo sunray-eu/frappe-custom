@@ -584,7 +584,7 @@ class FormTimeline extends BaseTimeline {
 
 		if (this.frm.doctype === "Communication") {
 			args.message = "";
-			args.last_email = this.frm.doc;
+			args.current_replyto_email = this.frm.doc;
 			args.recipients = this.frm.doc.sender;
 			args.subject = __("Re: {0}", [this.frm.doc.subject]);
 		} else {

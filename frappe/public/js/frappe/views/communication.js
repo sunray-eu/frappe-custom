@@ -19,6 +19,10 @@ frappe.views.CommunicationComposer = class {
 	make() {
 		const me = this;
 
+		this.last_email = this.get_last_email() || this.current_replyto_email;
+		console.log("Last Email", this.last_email)
+		console.log("Current Email", this.current_replyto_email)
+
 		this.dialog = new frappe.ui.Dialog({
 			title: this.title || this.subject || __("New Email"),
 			no_submit_on_enter: true,
@@ -342,7 +346,7 @@ frappe.views.CommunicationComposer = class {
 
 		if (!this.subject && this.frm) {
 			// get subject from last communication
-			const last = this.frm.timeline.get_last_email();
+			const last = this.last_email;
 
 			if (last) {
 				this.subject = last.subject;
@@ -773,6 +777,15 @@ frappe.views.CommunicationComposer = class {
 			return;
 		}
 
+		const last_email = this.last_email;
+
+		// If we do not have `doctype` property on `last_email`, use `communication_type` property
+		const last_email_doctype = last_email ? (last_email.doctype ? last_email.doctype : last_email.communication_type) : null;
+		const last_email_name = last_email ? last_email.name : null;
+
+		console.log("last_email_doctype", last_email_doctype)
+		console.log("last_email_name", last_email_name)
+
 		return frappe.call({
 			method: "frappe.core.doctype.communication.email.make",
 			args: {
@@ -795,6 +808,8 @@ frappe.views.CommunicationComposer = class {
 				print_letterhead: me.is_print_letterhead_checked(),
 				send_after: form_values.send_after ? form_values.send_after : null,
 				print_language: form_values.print_language,
+				in_reply_to_doctype: last_email_doctype,
+				in_reply_to_name: last_email_name,
 			},
 			btn,
 			callback(r) {
@@ -923,10 +938,14 @@ frappe.views.CommunicationComposer = class {
 		return "<br>" + signature;
 	}
 
+	get_last_email() {
+		return this.frm && this.frm.timeline.get_last_email(true);
+	}
+
 	get_earlier_reply() {
 		this.reply_set = false;
 
-		const last_email = this.last_email || (this.frm && this.frm.timeline.get_last_email(true));
+		const last_email = this.last_email
 
 		if (!last_email) return "";
 		let last_email_content = last_email.original_comment || last_email.content;

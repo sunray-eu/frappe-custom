@@ -75,6 +75,7 @@ def create_new_reminder(
 
 def send_reminders():
 	# Ensure that we send all reminders that might be before next job execution.
+	# TODO: old variable name
 	job_freq = cint(frappe.get_conf().scheduler_interval) or 240
 	upper_threshold = add_to_date(now_datetime(), seconds=job_freq, as_string=True, as_datetime=True)
 

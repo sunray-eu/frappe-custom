@@ -485,6 +485,7 @@ class QueueBuilder:
 		bcc=None,
 		message_id=None,
 		in_reply_to=None,
+		references: list[str] = None,
 		send_after=None,
 		expose_recipients=None,
 		send_priority=1,
@@ -514,6 +515,7 @@ class QueueBuilder:
 		:param attachments: Attachments to be sent.
 		:param reply_to: Reply to be captured here (default inbox)
 		:param in_reply_to: Used to send the Message-Id of a received email back as In-Reply-To.
+		:param references: Used to send the Message-Id of a received email back as References.
 		:param send_after: Send this email after the given datetime. If value is in integer, then `send_after` will be the automatically set to no of days from current date.
 		:param communication: Communication link to be set in Email Queue record
 		:param queue_separately: Queue each email separately
@@ -550,6 +552,7 @@ class QueueBuilder:
 		self.reply_to = reply_to
 		self.message_id = message_id
 		self.in_reply_to = in_reply_to
+		self.references = references
 		self.send_priority = send_priority
 		self.communication = communication
 		self.read_receipt = read_receipt
@@ -710,6 +713,9 @@ class QueueBuilder:
 			mail.msg_root["Disposition-Notification-To"] = self.sender
 		if self.in_reply_to:
 			mail.set_in_reply_to(self.in_reply_to)
+		if self.references:
+			mail.set_references(self.references)
+
 		return mail
 
 	def process(self, send_now=False) -> EmailQueue | None:

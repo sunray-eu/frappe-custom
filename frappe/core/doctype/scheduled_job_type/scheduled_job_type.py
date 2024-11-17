@@ -123,6 +123,8 @@ class ScheduledJobType(Document):
 		# Creation is set as fallback because if very old fallback is set job might trigger
 		# immediately, even when it's meant to be daily.
 		# A dynamic fallback like current time might miss the scheduler interval and job will never start.
+		# TODO: fix this, on initial setup, the job is delayed
+		# In europe Bratislava it is always +3h
 		last_execution = get_datetime(self.last_execution or self.creation)
 		next_execution = croniter(self.cron_format, last_execution).get_next(datetime)
 

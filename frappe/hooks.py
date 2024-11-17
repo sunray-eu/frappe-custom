@@ -205,7 +205,7 @@ scheduler_events = {
 		],
 		# 10 minutes
 		"0/10 * * * *": [
-			"frappe.email.doctype.email_account.email_account.pull",
+			# "frappe.email.doctype.email_account.email_account.pull",
 		],
 		# Hourly but offset by 30 minutes
 		"30 * * * *": [
@@ -217,6 +217,7 @@ scheduler_events = {
 		],
 	},
 	"all": [
+		"frappe.email.doctype.email_account.email_account.pull",
 		"frappe.email.queue.flush",
 		"frappe.monitor.flush",
 		"frappe.automation.doctype.reminder.reminder.send_reminders",

@@ -301,7 +301,12 @@ class EMail:
 
 	def set_in_reply_to(self, in_reply_to):
 		"""Used to send the Message-Id of a received email back as In-Reply-To"""
-		self.set_header("In-Reply-To", in_reply_to)
+		self.set_header("In-Reply-To", "<" + in_reply_to + ">")
+
+	# We need to set the References header to the Message-Id of the received email in format `<reference1> <reference2>`
+	def set_references(self, references: list[str]):
+		"""Used to send the Message-Id of a received email back as References"""
+		self.set_header("References", " ".join(f"<{reference}>" for reference in references))
 
 	def make(self):
 		"""build into msg_root"""

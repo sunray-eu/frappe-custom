@@ -744,6 +744,7 @@ def sendmail(
 	bcc=None,
 	message_id=None,
 	in_reply_to=None,
+	references: list[str] = None,
 	send_after=None,
 	expose_recipients=None,
 	send_priority=1,
@@ -778,6 +779,7 @@ def sendmail(
 	:param reply_to: Reply-To Email Address.
 	:param message_id: Used for threading. If a reply is received to this email, Message-Id is sent back as In-Reply-To in received email.
 	:param in_reply_to: Used to send the Message-Id of a received email back as In-Reply-To.
+	:param references: Used to send the Message-Id of a received email back as References.
 	:param send_after: Send after the given datetime.
 	:param expose_recipients: Display all recipients in the footer message - "This email was sent to"
 	:param communication: Communication link to be set in Email Queue record
@@ -829,6 +831,7 @@ def sendmail(
 		bcc=bcc,
 		message_id=message_id,
 		in_reply_to=in_reply_to,
+		references=references,
 		send_after=send_after,
 		expose_recipients=expose_recipients,
 		send_priority=send_priority,
