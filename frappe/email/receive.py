@@ -644,7 +644,6 @@ class InboundMail(Email):
 		self.flags.is_new_communication = True
 		return self._build_communication_doc()
 
-	# This is responsible for connecting threads
 	def _build_communication_doc(self):
 		data = self.as_dict()
 		data["doctype"] = "Communication"
