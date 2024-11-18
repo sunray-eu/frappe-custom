@@ -785,15 +785,14 @@ class InboundMail(Email):
 		parent_email_queue = self.parent_email_queue()
 		parent_communication = self.parent_communication()
 
-		parent = self.parent_email_queue() or self.parent_communication()
+		parent = None
 
-
-		# if parent_email_queue and parent_email_queue.reference_doctype:
-		# 	parent = parent_email_queue
-		# elif parent_communication and parent_communication.reference_doctype:
-		# 	parent = parent_communication
-		# else:
-		# 	parent = None
+		if parent_email_queue and parent_email_queue.reference_doctype:
+			parent = parent_email_queue
+		elif parent_communication and parent_communication.reference_doctype:
+			parent = parent_communication
+		else:
+			parent = None
 
 		# Print debug info
 		if(parent_email_queue):
@@ -813,8 +812,8 @@ class InboundMail(Email):
 			reference_document = self.match_record_by_subject_and_sender(self.email_account.append_to)
 
 		# If it was first reply to sent mail (from ERP), then we will take parent communication as reference document.
-		# if not reference_document and self.is_reply_to_system_sent_mail():
-		# 	reference_document = parent_communication
+		if not reference_document and self.is_reply_to_system_sent_mail():
+			reference_document = parent_communication
 
 		print(f"Reference document name after processing: {reference_document and reference_document.name}")
 

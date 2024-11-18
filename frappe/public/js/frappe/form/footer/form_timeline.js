@@ -1,5 +1,6 @@
 // Copyright (c) 2020, Frappe Technologies Pvt. Ltd. and Contributors
 // MIT License. See license.txt
+import { EMAIL_REPLY_TYPE } from "../../../../../core/doctype/communication/types";
 import BaseTimeline from "./base_timeline";
 import {
 	get_version_timeline_content,
@@ -586,7 +587,9 @@ class FormTimeline extends BaseTimeline {
 			args.message = "";
 			args.current_replyto_email = this.frm.doc;
 			args.recipients = this.frm.doc.sender;
-			args.subject = __("Re: {0}", [this.frm.doc.subject]);
+			// args.subject = this.frm.doc.subject;
+			args.raw_subject = this.frm.doc.subject;
+			args.reply_type = "REPLY";
 		} else {
 			const comment_value = frappe.markdown(this.frm.comment_box.get_value());
 			args.message = strip_html(comment_value) ? comment_value : "";

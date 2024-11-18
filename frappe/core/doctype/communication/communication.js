@@ -1,3 +1,19 @@
+// ENUM of available email reply types
+/**
+ * Enum for email reply types.
+ * @readonly
+ * @enum {string}
+ */
+const EMAIL_REPLY_TYPE = {
+	REPLY: "REPLY",
+	REPLY_ALL: "REPLY_ALL",
+	FORWARD: "FORWARD",
+};
+
+// TODO find correct way of exporting types
+frappe.email_reply_type = EMAIL_REPLY_TYPE;
+
+
 frappe.ui.form.on("Communication", {
 	onload: function (frm) {
 		if (frm.doc.content) {
@@ -51,8 +67,11 @@ frappe.ui.form.on("Communication", {
 
 		if (
 			frm.doc.communication_type == "Communication" &&
-			frm.doc.communication_medium == "Email" &&
-			frm.doc.sent_or_received == "Received"
+			frm.doc.communication_medium == "Email"
+			// We should be able to reply also to sent emails, not only received
+			// && frm.doc.sent_or_received == "Received"
+			// We should not be able to reply to linked emails, only to main ones
+			&& frm.doc.status !== "Linked"
 		) {
 			frm.add_custom_button(__("Reply"), function () {
 				frm.trigger("reply");
@@ -264,11 +283,11 @@ frappe.ui.form.on("Communication", {
 
 	reply: function (frm) {
 		var args = frm.events.get_mail_args(frm);
-		console.log("Reply", frm.doc.subject)
 		$.extend(args, {
 			subject: frm.doc.subject,
 			recipients: frm.doc.sender,
 			is_a_reply: true,
+			reply_type: EMAIL_REPLY_TYPE.REPLY,
 		});
 
 		new frappe.views.CommunicationComposer(args);
@@ -277,10 +296,10 @@ frappe.ui.form.on("Communication", {
 	reply_all: function (frm) {
 		var args = frm.events.get_mail_args(frm);
 		$.extend(args, {
-			subject: __("Res: {0}", [frm.doc.subject]),
 			recipients: frm.doc.sender,
 			cc: frm.doc.cc,
 			is_a_reply: true,
+			reply_type: EMAIL_REPLY_TYPE.REPLY_ALL,
 		});
 		new frappe.views.CommunicationComposer(args);
 	},
@@ -289,8 +308,8 @@ frappe.ui.form.on("Communication", {
 		var args = frm.events.get_mail_args(frm);
 		$.extend(args, {
 			forward: true,
-			subject: __("Fw: {0}", [frm.doc.subject]),
 			is_a_reply: true,
+			reply_type: EMAIL_REPLY_TYPE.FORWARD,
 		});
 
 		new frappe.views.CommunicationComposer(args);

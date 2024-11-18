@@ -182,6 +182,7 @@ class CommunicationEmailMixin:
 			self._incoming_email_account = EmailAccount.find_incoming(
 				match_by_email=self.sender_mailid, match_by_doctype=self.reference_doctype
 			)
+		frappe.logger(module="emaildebug").error(f"Log, incoming email account: {self._incoming_email_account}")
 		return self._incoming_email_account
 
 	def mail_attachments(self, print_format=None, print_html=None, print_language=None):
@@ -334,7 +335,7 @@ class CommunicationEmailMixin:
 			try:
 				in_reply_to_messageid = frappe.db.get_value(doctype="Communication", filters=self.in_reply_to, fieldname="message_id")
 			except Exception:
-				# Ignore if doctype or message_id in doctype is not found
+				# Ignore if either doctype or message_id in doctype is not found
 				pass
 
 		debug_data = {

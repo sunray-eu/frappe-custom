@@ -42,6 +42,7 @@ frappe.views.CommunicationComposer = class {
 
 		$(this.dialog.$wrapper.find(".form-section").get(0)).addClass("to_section");
 
+		console.log("Before prepare")
 		this.prepare();
 		this.dialog.show();
 
@@ -344,6 +345,8 @@ frappe.views.CommunicationComposer = class {
 			this.recipients = this.frm && this.frm.timeline.get_recipient();
 		}
 
+		console.log("this.subject", this.subject)
+
 		if (!this.subject && this.frm) {
 			// get subject from last communication
 			const last = this.last_email;
@@ -352,11 +355,6 @@ frappe.views.CommunicationComposer = class {
 				this.subject = last.subject;
 				if (!this.recipients) {
 					this.recipients = last.sender;
-				}
-
-				// prepend "Re:"
-				if (strip(this.subject.toLowerCase().split(":")[0]) != "re") {
-					this.subject = __("Re: {0}", [this.subject]);
 				}
 			}
 
@@ -379,6 +377,26 @@ frappe.views.CommunicationComposer = class {
 				this.subject = `${this.subject} (${identifier})`;
 			}
 		}
+
+		console.log("this.reply_type", this.reply_type)
+
+		// Prepend "Re:" or "Fw:" to the subject
+		switch (this.reply_type) {
+			case "REPLY":
+			case "REPLY_ALL":
+				// Use "Re:" universally to keep it simple and clear
+				this.subject = this.subject.replace(/^(re:|res:|fw:)\s*/i, "");
+				this.subject = __("Re: {0}", [this.subject]);
+				break;
+			case "FORWARD":
+				// Use "Fw:" for forwards
+				this.subject = this.subject.replace(/^(re:|res:|fw:)\s*/i, "");
+				this.subject = __("Fw: {0}", [this.subject]);
+				break;
+			default:
+				this.subject = this.subject.replace(/^(re:|res:|fw:)\s*/i, "");
+		}
+
 
 		if (this.frm && !this.recipients) {
 			this.recipients = this.frm.doc[this.frm.email_field];
@@ -939,7 +957,7 @@ frappe.views.CommunicationComposer = class {
 	}
 
 	get_last_email() {
-		return this.frm && this.frm.timeline.get_last_email(true);
+		return this.frm && this.frm.timeline.get_last_email(false);
 	}
 
 	get_earlier_reply() {
