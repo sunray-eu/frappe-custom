@@ -20,8 +20,6 @@ frappe.views.CommunicationComposer = class {
 		const me = this;
 
 		this.last_email = this.get_last_email() || this.current_replyto_email;
-		console.log("Last Email", this.last_email)
-		console.log("Current Email", this.current_replyto_email)
 
 		this.dialog = new frappe.ui.Dialog({
 			title: this.title || this.subject || __("New Email"),
@@ -42,7 +40,6 @@ frappe.views.CommunicationComposer = class {
 
 		$(this.dialog.$wrapper.find(".form-section").get(0)).addClass("to_section");
 
-		console.log("Before prepare")
 		this.prepare();
 		this.dialog.show();
 
@@ -345,8 +342,6 @@ frappe.views.CommunicationComposer = class {
 			this.recipients = this.frm && this.frm.timeline.get_recipient();
 		}
 
-		console.log("this.subject", this.subject)
-
 		if (!this.subject && this.frm) {
 			// get subject from last communication
 			const last = this.last_email;
@@ -377,8 +372,6 @@ frappe.views.CommunicationComposer = class {
 				this.subject = `${this.subject} (${identifier})`;
 			}
 		}
-
-		console.log("this.reply_type", this.reply_type)
 
 		// Prepend "Re:" or "Fw:" to the subject
 		switch (this.reply_type) {
@@ -800,9 +793,6 @@ frappe.views.CommunicationComposer = class {
 		// If we do not have `doctype` property on `last_email`, use `communication_type` property
 		const last_email_doctype = last_email ? (last_email.doctype ? last_email.doctype : last_email.communication_type) : null;
 		const last_email_name = last_email ? last_email.name : null;
-
-		console.log("last_email_doctype", last_email_doctype)
-		console.log("last_email_name", last_email_name)
 
 		return frappe.call({
 			method: "frappe.core.doctype.communication.email.make",

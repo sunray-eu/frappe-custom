@@ -635,9 +635,7 @@ class InboundMail(Email):
 				print("WARN: Cannot pull email. Sender same as recipient inbox")
 			raise SentEmailInInboxError
 
-		# Print debug info
 		communication = self.is_exist_in_system()
-		print(f"Processing email {self.subject} from {self.from_email}, isExistInSystem: {communication and True}")
 		if communication:
 			communication.update_db(uid=self.uid)
 			communication.reload()
@@ -657,14 +655,11 @@ class InboundMail(Email):
 		append_to = self.append_to if self.email_account.use_imap else self.email_account.append_to
 
 		if self.reference_document():
-			print(f"Reference document found: {self.reference_document().name}")
 			data["reference_doctype"] = self.reference_document().doctype
 			data["reference_name"] = self.reference_document().name
 		elif append_to and append_to != "Communication":
-			print(f"Reference document not found, trying to match with {append_to}")
 			reference_name = self._create_reference_document(append_to)
 			if reference_name:
-				print(f"Reference document created: {reference_name}")
 				data["reference_doctype"] = append_to
 				data["reference_name"] = reference_name
 
@@ -674,11 +669,6 @@ class InboundMail(Email):
 
 		if self.seen_status:
 			data["_seen"] = json.dumps(self.get_users_linked_to_account(self.email_account))
-
-		# Print debug info
-		print(
-			f"Building communication doc for {self.subject} from {self.from_email}, parent_communication: {data.get('in_reply_to')}, append_to: {append_to}, reference_doctype: {data.get('reference_doctype')}, reference_name: {data.get('reference_name')}, is_notification: {self.is_notification()}, seen_status: {data.get('_seen')}"
-			)
 
 		communication = frappe.get_doc(data)
 		communication.flags.in_receive = True
@@ -794,19 +784,9 @@ class InboundMail(Email):
 		else:
 			parent = None
 
-		# Print debug info
-		if(parent_email_queue):
-			print(f"parent_email_queue, doctype: {parent_email_queue.doctype}, name: {parent_email_queue.name}, reference_doctype: {parent_email_queue.reference_doctype}, reference_name: {parent_email_queue.reference_name}")
-		if(parent_communication):
-			print(f"parent_communication, doctype: {parent_communication.doctype}, name: {parent_communication.name}, reference_doctype: {parent_communication.reference_doctype}, reference_name: {parent_communication.reference_name}")
-		if(parent):
-			print(f"Parent document found: {parent.doctype}, {parent.name}")
-
 		if parent and parent.reference_doctype:
 			reference_doctype, reference_name = parent.reference_doctype, parent.reference_name
 			reference_document = self.get_doc(reference_doctype, reference_name, ignore_error=True)
-
-		print(f"Reference document from parent: {reference_document and reference_document.name}")
 
 		if not reference_document and self.email_account.append_to:
 			reference_document = self.match_record_by_subject_and_sender(self.email_account.append_to)
@@ -814,8 +794,6 @@ class InboundMail(Email):
 		# If it was first reply to sent mail (from ERP), then we will take parent communication as reference document.
 		if not reference_document and self.is_reply_to_system_sent_mail():
 			reference_document = parent_communication
-
-		print(f"Reference document name after processing: {reference_document and reference_document.name}")
 
 		self._reference_document = reference_document or ""
 		return self._reference_document

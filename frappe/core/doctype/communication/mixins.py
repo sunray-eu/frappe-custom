@@ -182,7 +182,6 @@ class CommunicationEmailMixin:
 			self._incoming_email_account = EmailAccount.find_incoming(
 				match_by_email=self.sender_mailid, match_by_doctype=self.reference_doctype
 			)
-		frappe.logger(module="emaildebug").error(f"Log, incoming email account: {self._incoming_email_account}")
 		return self._incoming_email_account
 
 	def mail_attachments(self, print_format=None, print_html=None, print_language=None):
@@ -352,10 +351,6 @@ class CommunicationEmailMixin:
 				# "content": self.get_content(print_format=print_format),
 				# "attachments": final_attachments,
 			}
-
-		# Print debug info
-		frappe.logger(module="emaildebug").error(f"Log, sending email with following details: {debug_data}")
-		print(f"Log, sending email with following details: {debug_data}")
 
 		return {
 			"recipients": recipients,

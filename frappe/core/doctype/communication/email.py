@@ -79,20 +79,14 @@ def make(
 	if kwargs:
 		from frappe.utils.commands import warn
 
-		print("email make, warn")
-
 		warn(
 			f"Options {kwargs} used in frappe.core.doctype.communication.email.make "
 			"are deprecated or unsupported",
 			category=DeprecationWarning,
 		)
 
-	print(f"make Email, after warn")
-
 	if doctype and name and not frappe.has_permission(doctype=doctype, ptype="email", doc=name):
 		raise frappe.PermissionError(f"You are not allowed to send emails related to: {doctype} {name}")
-
-	print(f"make Email, after permission check")
 
 	return _make(
 		doctype=doctype,
@@ -154,12 +148,6 @@ def _make(
 ) -> dict[str, str]:
 	"""Internal method to make a new communication that ignores Permission checks."""
 
-	# Print debug info
-	print(f"make Email: {locals()}")
-	frappe.logger().warning(f"make Email: {locals()}")
-	print("Make email without locals")
-	frappe.logger().warning("Make email without locals")
-
 	sender = sender or get_formatted_email(frappe.session.user)
 	recipients = list_to_str(recipients) if isinstance(recipients, list) else recipients
 	cc = list_to_str(cc) if isinstance(cc, list) else cc
@@ -200,8 +188,6 @@ def _make(
 			attachments = json.loads(attachments)
 		add_attachments(comm.name, attachments)
 
-	print(f"make Email: {comm.name}, send_email: {send_email}")
-	frappe.logger().warning(f"make Email: {comm.name}, send_email: {send_email}")
 	if cint(send_email):
 		if not comm.get_outgoing_email_account():
 			frappe.throw(

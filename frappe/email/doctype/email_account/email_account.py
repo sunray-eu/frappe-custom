@@ -588,10 +588,6 @@ class EmailAccount(Document):
 				uid = messages["uid_list"][index] if messages.get("uid_list") else None
 				seen_status = messages.get("seen_status", {}).get(uid)
 				if self.email_sync_option != "UNSEEN" or seen_status != "SEEN":
-					# Print debug info
-					frappe.logger().info(
-						f"process_mail, Message: {message}, Email Account: {self.name}, UID: {uid}, Seen Status: {seen_status}"
-					)
 					# only append the emails with status != 'SEEN' if sync option is set to 'UNSEEN'
 					mails.append(
 						InboundMail(
@@ -615,10 +611,6 @@ class EmailAccount(Document):
 					if email_server.select_imap_folder(folder.folder_name):
 						email_server.settings["uid_validity"] = folder.uidvalidity
 						messages = email_server.get_messages(folder=f'"{folder.folder_name}"') or {}
-						# Print debug info
-						frappe.logger().info(
-							f"get_inbound_mails, Email Account: {self.name}, Folder: {folder.folder_name}, Messages: {len(messages.get('latest_messages', []))}"
-						)
 						process_mail(messages, folder.append_to)
 			else:
 				# process the pop3 account
