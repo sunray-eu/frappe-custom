@@ -552,9 +552,12 @@ class FormTimeline extends BaseTimeline {
 			is_a_reply: Boolean(communication_doc),
 			title: communication_doc ? __("Reply") : null,
 			last_email: communication_doc,
-			subject: communication_doc && communication_doc.subject,
+			raw_subject: communication_doc && communication_doc.subject,
 			reply_all: reply_all,
 		};
+
+		if (args.is_a_reply)
+			args.reply_type = reply_all ? EMAIL_REPLY_TYPE.REPLY_ALL : EMAIL_REPLY_TYPE.REPLY;
 
 		const email_accounts = frappe.boot.email_accounts
 			.filter((account) => {
