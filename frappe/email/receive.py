@@ -666,8 +666,46 @@ class InboundMail(Email):
 			# Disable notifications for notification.
 			data["unread_notification_sent"] = 1
 
+		users_linked_to_account = self.get_users_linked_to_account(self.email_account)
 		if self.seen_status:
-			data["_seen"] = json.dumps(self.get_users_linked_to_account(self.email_account))
+			data["_seen"] = json.dumps(users_linked_to_account)
+
+		def check_user_exist(user):
+			return frappe.db.get_value("User", user)
+
+		# Maybe, we could change this to parent_communication().owner, because then owner can change based on who did last reply
+		owner = None
+
+		# Check reference document owner
+		reference_doc = self.reference_document()
+		if reference_doc:
+			owner = reference_doc.owner
+
+		# Reset owner if it's "Administrator"
+		if owner == "Administrator":
+			owner = None
+
+		# Determine owner if not set
+		if not owner:
+			if users_linked_to_account:
+				owner = (
+					self.email_account.email_id
+					if self.email_account.email_id in users_linked_to_account
+					else users_linked_to_account[0]
+				)
+			else:
+				owner = frappe.db.get_value("User", self.email_account.email_id)
+
+		# Fallback to parent communication owner
+		if not owner:
+			parent_comm = self.parent_communication()
+			if parent_comm:
+				owner = parent_comm.owner
+
+		if owner:
+			frappe.session.user = owner
+		else:
+			frappe.session.user = "Administrator"
 
 		communication = frappe.get_doc(data)
 		communication.flags.in_receive = True
