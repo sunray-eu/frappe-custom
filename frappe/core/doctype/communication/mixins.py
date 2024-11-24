@@ -322,6 +322,7 @@ class CommunicationEmailMixin:
 		# references = (self.references or [])
 
 		# TODO: We need to fix documentation and logic of "Email Threads on Assigned Document" setting in Notification Settings as it is broken currently
+		# Basically, expected logic is that thread will be forwarded to user email if he is assigned to the document and have enabled "Email Threads on Assigned Document" setting, currently the sender of that forwarded mail is actually sender of received mail, which is wrong
 		# For now, we will reset `sender` when it is inbound communication and do not send any email
 		if is_inbound_mail_communcation:
 			# self.sender = None
