@@ -321,6 +321,12 @@ class CommunicationEmailMixin:
 		# We need to get references - all message ids of the email chain, we already have references in self.references as array, we just need to add here reply_to id
 		# references = (self.references or [])
 
+		# TODO: We need to fix documentation and logic of "Email Threads on Assigned Document" setting in Notification Settings as it is broken currently
+		# For now, we will reset `sender` when it is inbound communication and do not send any email
+		if is_inbound_mail_communcation:
+			# self.sender = None
+			return {}
+
 		# If this is a reply to an existing email and email_account have incoming enabled, set reply_to as the sender of the reply
 		if self.in_reply_to and email_account_incoming:
 			# references.append(self.in_reply_to)
