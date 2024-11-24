@@ -350,6 +350,14 @@ def get_context(context):
 				for email in emails:
 					recipients = recipients + email.split("\n")
 
+			# Dynamic recipients list
+			if recipient.dynamic_receiver:
+				dynamic_receiver_eval = frappe.safe_eval(recipient.dynamic_receiver, None, context)
+				# We should also check if the dynamic_receiver_eval is a list and also ensure that each element is string
+				if dynamic_receiver_eval and isinstance(dynamic_receiver_eval, list):
+					dynamic_receiver_eval = [str(i) for i in dynamic_receiver_eval]
+					recipients += dynamic_receiver_eval
+
 		if self.send_to_all_assignees:
 			recipients = recipients + get_assignees(doc)
 
@@ -375,6 +383,14 @@ def get_context(context):
 				receiver_list += get_info_based_on_role(
 					recipient.receiver_by_role, "mobile_no", ignore_permissions=True
 				)
+
+			# Dynamic receivers list
+			if recipient.dynamic_receiver:
+				dynamic_receiver_eval = frappe.safe_eval(recipient.dynamic_receiver, None, context)
+				# We should also check if the dynamic_receiver_eval is a list and also ensure that each element is string
+				if dynamic_receiver_eval and isinstance(dynamic_receiver_eval, list):
+					dynamic_receiver_eval = [str(i) for i in dynamic_receiver_eval]
+					receiver_list += dynamic_receiver_eval
 
 		return receiver_list
 
