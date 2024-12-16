@@ -1226,10 +1226,17 @@ Object.assign(frappe.utils, {
 		</svg>`;
 	},
 
-	flag(country_code) {
+	flag(country_code, style = undefined, className = undefined, width = 20, height = 15) {
+		style = style ? `style="${style}"` : "";
+		className = className ? `class="${className}"` : "";
+		width = width ? `width="${width}"` : "";
+		height = height ? `height="${height}"` : "";
+
 		return `<img
-		src="https://flagcdn.com/${country_code}.svg"
-		width="20" height="15">`;
+			src="https://flagcdn.com/${country_code}.svg"
+			${width} ${height}
+			${style}
+			${className}>`;
 	},
 
 	make_chart(wrapper, custom_options = {}) {

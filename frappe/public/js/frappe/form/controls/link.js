@@ -122,6 +122,7 @@ frappe.ui.form.ControlLink = class ControlLink extends frappe.ui.form.ControlDat
 	}
 	parse_validate_and_set_in_model(value, e, label) {
 		if (this.parse) value = this.parse(value, label);
+		console.log("label",this.label);
 		if (label) {
 			this.label = this.get_translated(label);
 			frappe.utils.add_link_title(this.df.options, value, label);
@@ -332,6 +333,7 @@ frappe.ui.form.ControlLink = class ControlLink extends frappe.ui.form.ControlDat
 								});
 							}
 						}
+						console.log("r.message",r.message);
 						me.$input.cache[doctype][term] = r.message;
 						me.awesomplete.list = me.$input.cache[doctype][term];
 						me.toggle_href(doctype);
