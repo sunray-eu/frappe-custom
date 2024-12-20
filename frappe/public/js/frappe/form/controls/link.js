@@ -13,20 +13,30 @@ frappe.ui.form.ControlLink = class ControlLink extends frappe.ui.form.ControlDat
 		var me = this;
 		$(`<div class="link-field ui-front" style="position: relative;">
 			<input type="text" class="input-with-feedback form-control">
-			<span class="link-btn">
-				<a class="btn-clear no-decoration">
-					${frappe.utils.icon("close-alt", "xs")}
-				</a>
-				<a class="btn-open no-decoration" title="${__("Open Link")}">
-					${frappe.utils.icon("arrow-right", "xs")}
-				</a>
-			</span>
+			<div class="link-icons-on-right">
+				<span class="link-btn" style="position: relative; top: unset; right: unset; padding: unset;">
+					<a class="btn-clear no-decoration">
+						${frappe.utils.icon("close-alt", "xs")}
+					</a>
+					<a class="btn-open no-decoration" title="${__("Open Link")}">
+						${frappe.utils.icon("arrow-right", "xs")}
+					</a>
+				</span>
+			</div>
 		</div>`).prependTo(this.input_area);
 		this.$input_area = $(this.input_area);
 		this.$input = this.$input_area.find("input");
 		this.$link = this.$input_area.find(".link-btn");
 		this.$link_clear = this.$input_area.find(".btn-clear");
 		this.$link_open = this.$link.find(".btn-open");
+		this.$link_icons_on_right = this.$input_area.find(".link-icons-on-right");
+
+		// Insert a span for country flag (if needed)
+		if (this.df.options === "Country") {
+			this.$country_flag = $('<span class="country-flag"></span>').prependTo(this.$link_icons_on_right);
+			this.$country_flag.hide(); // hide by default until set
+		}
+
 		this.set_input_attributes();
 		this.$input.on("focus", function () {
 			setTimeout(function () {
@@ -39,6 +49,9 @@ frappe.ui.form.ControlLink = class ControlLink extends frappe.ui.form.ControlDat
 						me.$link.toggle(false);
 						me.set_value("");
 						me.validate();
+						if (me.$country_flag) {
+							me.$country_flag.hide().empty();
+						}
 					});
 				}
 
@@ -47,6 +60,9 @@ frappe.ui.form.ControlLink = class ControlLink extends frappe.ui.form.ControlDat
 
 					// hide link arrow to doctype if none is set
 					me.$link.toggle(false);
+					if (me.$country_flag) {
+						me.$country_flag.hide().empty();
+					}
 				}
 			}, 500);
 		});
@@ -65,6 +81,42 @@ frappe.ui.form.ControlLink = class ControlLink extends frappe.ui.form.ControlDat
 		this.setup_awesomeplete();
 		this.bind_change_event();
 	}
+
+	refresh_input() {
+		super.refresh_input();
+		// If doctype is Country and there is a value set, show flag
+		if (this.df.options === "Country") {
+			let value = this.get_input_value();
+			if (value) {
+				this.update_country_flag(value);
+			} else if (this.$country_flag) {
+				this.$country_flag.hide().empty();
+			}
+		}
+	}
+
+	update_country_flag(country_name) {
+		// Only if doctype is Country
+		if (this.df.options !== "Country") return;
+		if (!country_name) {
+			this.$country_flag && this.$country_flag.hide().empty();
+			return;
+		}
+
+		// Fetch country code from Country doctype
+		frappe.db.get_value('Country', country_name, 'code').then(r => {
+			if (r && r.message && r.message.code) {
+				let code = (r.message.code || "").toLowerCase();
+				// Use frappe.utils.flag function
+				// round image, always visible when set, inline styles to ensure roundness
+				let flag_img = frappe.utils.flag(code, "width:20px;height:20px;border-radius:50%;object-fit:cover;");
+				this.$country_flag.html(flag_img).show();
+			} else {
+				this.$country_flag.hide().empty();
+			}
+		});
+	}
+
 	get_options() {
 		return this.df.options;
 	}
@@ -407,6 +459,11 @@ frappe.ui.form.ControlLink = class ControlLink extends frappe.ui.form.ControlDat
 			}
 
 			me.parse_validate_and_set_in_model(item.value, null, item.label);
+
+			// If Country, update flag after selection
+			if (me.df.options === "Country") {
+				me.update_country_flag(item.value);
+			}
 		});
 
 		this.$input.on("awesomplete-selectcomplete", function (e) {

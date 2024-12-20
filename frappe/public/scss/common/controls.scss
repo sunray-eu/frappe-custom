@@ -193,6 +193,15 @@ select.form-control {
 		background-color: none;
 		display: none;
 	}
+
+	.link-icons-on-right {
+		position: absolute;
+		background-color: none;
+		top: 0px;
+		right: 4px;
+		padding: 3px;
+		z-index: 3;
+	}
 }
 
 .frappe-control:not([data-fieldtype="MultiSelectPills"]):not([data-fieldtype="Table MultiSelect"]) {
