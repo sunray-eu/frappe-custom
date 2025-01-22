@@ -14,7 +14,7 @@
     "@vueuse/core": "^11.2.0",
     "frappe-ui": "^v0.1.72",
     "tailwindcss": "^3.3.3",
-    "vite": "^4.4.9",
+    "vite": "^4.5.6",
     "vue": "^3.4.12",
     "vue-router": "^4.2.2"
   },
